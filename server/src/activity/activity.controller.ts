@@ -10,7 +10,7 @@ export class ActivityController {
   create(@Body() createActivityDto: Prisma.ActivityCreateInput) {
     return this.activityService.create(createActivityDto);
   }
-
+  
   @Get()
   findAll() {
     return this.activityService.findAll();
