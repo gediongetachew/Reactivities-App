@@ -19,13 +19,48 @@ model Activity {
   Date DateTime @default(now())
   Description String
   Category Category @relation(fields: [CategoryId], references: [Id], onDelete: Cascade)
+  Creator User @relation(fields: [CreatorId], references: [Id])
+  CreatorId Int
+  Participants JoinedActivities[]
   CategoryId Int
   City String
   Venue String
 
 }
+ 
+ model User {
+  Id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  profileImg String? @default("https://www.istockphoto.com/photos/profile")
+  Activities Activity[] 
+  JoinedActivities JoinedActivities[]
+  Followers UserFollow[] @relation("FollowersRelation")
+  Following UserFollow[] @relation("FollowingRelation")
+
+ }
+ 
+ model JoinedActivities {
+  user User @relation(fields: [userId], references: [Id])
+  userId Int
+  activity Activity @relation(fields: [activityId], references: [Id])
+  activityId Int
+  joinedAt DateTime @default(now())
+  @@id([userId, activityId])
+ }
+
+model UserFollow{
+  follower User @relation("FollowingRelation",fields: [followerId], references: [Id])
+  followerId Int
+  following User @relation("FollowersRelation",fields: [followingId], references: [Id])
+  followingId Int
+  @@id([followerId,followingId])
+}
+
 model Category {
   Id Int @id @default(autoincrement())
   Name String
   Activities Activity[]
 }
+
