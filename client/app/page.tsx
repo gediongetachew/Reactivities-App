@@ -11,7 +11,7 @@ export default function HomePage() {
   const { data, isLoading } = useQuery<Activity[]>({
     queryKey: ['activities'],
     queryFn: async (): Promise<Activity[]> =>
-      (await api.get<Activity[]>('/activities')).data,
+      (await api.get<Activity[]>('/activity')).data,
   });
 
   if (isLoading) return <Box textAlign="center"><CircularProgress /></Box>;

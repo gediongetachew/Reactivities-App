@@ -7,14 +7,14 @@ export class ActivityService {
    
     constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createActivityDto: Prisma.ActivityCreateInput) {
+  async create(createActivityDto: Prisma.ActivityCreateInput) {
     return this.databaseService.activity.create({
       data: createActivityDto,
       include: {Category: true}
     })
   }
 
-  findAll() {
+ async findAll() {
     return this.databaseService.activity.findMany({
       include:{
         Category:true,
@@ -24,7 +24,7 @@ export class ActivityService {
     })
   }
 
-  findOne(Id: number) {
+ async findOne(Id: number) {
     return this.databaseService.activity.findUnique({
       where: {Id},
       include: {
@@ -35,7 +35,7 @@ export class ActivityService {
     })
   }
 
-  update(Id: number, updateActivityDto: Prisma.ActivityUpdateInput) {
+ async update(Id: number, updateActivityDto: Prisma.ActivityUpdateInput) {
     return this.databaseService.activity.update({
       where:{Id},
       data: updateActivityDto
@@ -43,7 +43,7 @@ export class ActivityService {
     })
   }
 
-  remove(Id: number) {
+ async remove(Id: number) {
     return this.databaseService.activity.delete({
       where: {
         Id

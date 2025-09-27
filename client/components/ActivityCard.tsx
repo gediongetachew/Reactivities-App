@@ -13,7 +13,7 @@ export default function ActivityCard({ activity }: { activity: Activity }) {
         <Box sx={{ display: 'flex', width: '40%', gap:2, m: 2, alignItems:'center' }}>
           {/* Avatar for Host */}
           <Avatar
-            src={profile.src} // ✅ use profile.src since it's imported image
+            src={profile.src}
             alt="profile"
             sx={{ width: 70, height: 70 }}
           />

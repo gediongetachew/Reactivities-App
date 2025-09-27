@@ -8,10 +8,12 @@ import { CategoryService } from './category/category.service';
 import { ActivityModule } from './activity/activity.module';
 import { JoinedActivitiesModule } from './joined-activities/joined-activities.module';
 import { UserFollowModule } from './user-follow/user-follow.module';
+import { AuthModule } from './auth/auth.module';
+
 
 
 @Module({
-  imports: [DatabaseModule, ActivityModule, UserModule, ActivityModule, JoinedActivitiesModule, UserFollowModule],
+  imports: [DatabaseModule, ActivityModule, UserModule, ActivityModule, JoinedActivitiesModule, UserFollowModule, AuthModule,],
   providers: [AppService, JoinedActivitiesService, UserFollowService, CategoryService],
 })
 export class AppModule {}

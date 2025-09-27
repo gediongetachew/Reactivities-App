@@ -7,6 +7,7 @@ import { UserFollowModule } from 'src/user-follow/user-follow.module';
 @Module({
   controllers: [UserController],
   providers: [UserService],
-  imports:[JoinedActivitiesModule,UserFollowModule]
+  imports:[JoinedActivitiesModule,UserFollowModule,],
+  exports:[UserService]
 })
 export class UserModule {}
