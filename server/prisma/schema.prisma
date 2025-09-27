@@ -33,6 +33,7 @@ model Activity {
   name String
   email String @unique
   password String
+  role String @default("user")
   profileImg String? @default("https://www.istockphoto.com/photos/profile")
   Activities Activity[] 
   JoinedActivities JoinedActivities[]

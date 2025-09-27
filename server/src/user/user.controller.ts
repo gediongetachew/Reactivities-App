@@ -14,6 +14,8 @@ import { Prisma } from '@prisma/client';
 import { JoinedActivitiesService } from 'src/joined-activities/joined-activities.service';
 import { UserFollowService } from 'src/user-follow/user-follow.service';
 import { AuthGuard } from 'src/guards/auth-guard.guard';
+import { AuthorizationGuard } from 'src/guards/authorization.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('user')
 export class UserController {
@@ -30,7 +32,7 @@ export class UserController {
   
  
   @Post(':id/follow-user')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,AuthorizationGuard)
   followUser(
     @Param('id') id: string,
     @Body('followUserId') followUserId: string,
@@ -38,7 +40,7 @@ export class UserController {
     return this.userFollowService.followUser(Number(id), Number(followUserId));
   }
   @Post(':id/unfollow-user')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,AuthorizationGuard)
   unfollowUser(
     @Param('id') id: string,
     @Body('unfollowUserId') unfollowUserId: string,
@@ -50,7 +52,7 @@ export class UserController {
   }
 
   @Post(':id/join-activity')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AuthorizationGuard)
   joinActivity(
     @Param('id') id: string,
     @Body('activityId') activityId: string,
@@ -62,7 +64,7 @@ export class UserController {
   }
 
   @Post(':id/leave-activity')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,AuthorizationGuard)
   leaveActivity(
     @Param('id') id: string,
     @Body('activityId') activityId: string,
@@ -78,30 +80,34 @@ export class UserController {
     return this.userService.findAll();
   }
   @Get(':id/followers')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,AuthorizationGuard)
+  @Roles('admin')
   findFollowers(@Param('id') id: string) {
     return this.userFollowService.getFollowers(Number(id));
   }
   @Get(':id/following')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,AuthorizationGuard)
+  @Roles('admin')
   findFollowing(@Param('id') id: string) {
     return this.userFollowService.getFollowing(Number(id));
   }
 
   @Get(':id/joined-activities')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AuthorizationGuard)
+  @Roles('admin')
   findUserActivities(@Param('id') id: string) {
     return this.joinedActivitiesService.getUserJoinedActivities(Number(id));
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AuthorizationGuard)
+  @Roles('admin')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(Number(id));
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AuthorizationGuard)
   update(
     @Param('id') id: string,
     @Body() updateUserDto: Prisma.UserUpdateInput,
@@ -110,7 +116,8 @@ export class UserController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,AuthorizationGuard)
+  @Roles('admin')
   remove(@Param('id') id: string) {
     return this.userService.remove(Number(id));
   }
